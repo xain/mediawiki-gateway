@@ -246,6 +246,19 @@ module MediaWiki
       make_api_request(form_data)
     end
 
+    # Purge the cache for the given titles.
+
+    # This module requires read rights.
+    # This module requires write rights.
+    # Parameters:
+    #   titles         - A list of titles
+    # Example:
+    #   api.php?action=purge&titles=Main_Page|API
+    def purge(page_titles)
+      form_data = {'action' => 'purge', 'titles' => page_titles.join('|')}
+      make_api_request(form_data)
+    end
+
     # Undelete all revisions of one page.
     #
     # [title] Title of page to undelete
