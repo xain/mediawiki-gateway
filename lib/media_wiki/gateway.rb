@@ -343,6 +343,29 @@ module MediaWiki
       end while blcontinue
       titles
     end
+    
+    # Get a list of pages that use a target image
+    #
+    # [title] title of the target image
+    # [filter] "all" links (default), "redirects" only, or "nonredirects" (plain links only)
+    #
+    # Returns array of page titles (empty if no matches)
+    def imageusage(title, filter = "all")
+      titles = []
+      iucontinue = nil
+      begin
+        form_data =
+          {'action' => 'query',
+          'list' => 'imageusage',
+          'iutitle' => title,
+          'iufilterredir' => filter,
+          'iulimit' => @options[:limit] }
+        form_data['iucontinue'] = iucontinue if iucontinue
+        res, iucontinue = make_api_request(form_data, '//query-continue/imageusage/@iucontinue')
+        titles += REXML::XPath.match(res, "//iu").map { |x| x.attributes["title"] }
+      end while iucontinue
+      titles
+    end
 
     # Get a list of pages with matching content in given namespaces
     #
