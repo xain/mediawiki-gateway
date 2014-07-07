@@ -1,3 +1,4 @@
+# coding: utf-8
 module MediaWiki
   # General exception occurred within MediaWiki::Gateway, and parent class for MediaWiki::APIError, MediaWiki::Unauthorized.
   class Exception < Exception
